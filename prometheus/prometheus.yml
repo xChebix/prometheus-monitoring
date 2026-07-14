@@ -9,8 +9,20 @@ scrape_configs:
       - targets:
           - prometheus:9090
 
-  - job_name: node
+        labels:
+          hostname: sv-app-01
+          role: monitoring
+          environment: production
+          location: oficina-central
+
+  - job_name: linux
 
     static_configs:
       - targets:
           - node-exporter:9100
+
+        labels:
+          hostname: sv-app-01
+          role: monitoring
+          environment: production
+          location: oficina-central
