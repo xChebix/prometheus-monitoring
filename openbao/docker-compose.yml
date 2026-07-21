@@ -1,0 +1,23 @@
+services:
+
+  openbao:
+    image: openbao/openbao:2.6.0
+
+    container_name: openbao
+
+    restart: unless-stopped
+
+    ports:
+      - "8200:8200"
+
+    cap_add:
+      - IPC_LOCK
+
+    volumes:
+      - ./config.hcl:/openbao/config/config.hcl
+      - ./data:/openbao/data
+
+    environment:
+      BAO_ADDR: http://127.0.0.1:8200
+
+    command: server -config=/openbao/config/config.hcl
