@@ -1,7 +1,7 @@
 services:
 
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus:${PROMETHEUS_VERSION}
     container_name: prometheus
 
     restart: unless-stopped
@@ -13,38 +13,41 @@ services:
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
 
-    ports:
-      - "9090:9090"
-
     networks:
       - monitoring
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.prometheus.rule=Host(`prometheus.agropartners.com`)"
+      - "traefik.http.routers.prometheus.entrypoints=websecure"
+      - "traefik.http.routers.prometheus.tls=true"
+      - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
 
   grafana:
 
-    image: grafana/grafana:latest
+    image: grafana/grafana:${GRAFANA_VERSION}
 
     container_name: grafana
 
     restart: unless-stopped
-
-    ports:
-      - "3000:3000"
 
     volumes:
       - grafana-data:/var/lib/grafana
 
     networks:
       - monitoring
-
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.agropartners.com`)"
+      - "traefik.http.routers.grafana.entrypoints=websecure"
+      - "traefik.http.routers.grafana.tls=true"
+      - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+  
   node-exporter:
 
-    image: prom/node-exporter:latest
+    image: prom/node-exporter:${NEXPORTER_VERSION}
     container_name: node-exporter
 
     restart: unless-stopped
-
-    ports:
-      - "9100:9100"
 
     volumes:
       - /proc:/host/proc:ro
