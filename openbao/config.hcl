@@ -9,6 +9,6 @@ storage "file" {
   path = "/openbao/data"
 }
 
-api_addr = "http://openbao:8200"
+api_addr = "https://openbao.agropartners.com"
 
 disable_mlock = true

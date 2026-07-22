@@ -3,3 +3,6 @@ tls:
 
     - certFile: /certs/grafana/grafana.crt
       keyFile: /certs/grafana/grafana.key
+
+    - certFile: /certs/openbao/tls.crt
+      keyFile: /certs/openbao/tls.key
